@@ -1,0 +1,37 @@
+Microsoft Windows [Version 10.0.19045.2728]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\ict03-14>sqlplus
+
+SQL*Plus: Release 11.2.0.2.0 Production on 화 4월 11 10:43:30 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+Enter user-name: system
+Enter password:
+
+Connected to:
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+SQL> ALTER USER hr ACCOUNT UNLOCK;
+
+User altered.
+
+SQL> conn system/oracle;
+Connected.
+SQL> ALTER USER hr ACCOUNT UNLOCK;
+
+User altered.
+
+SQL> alter user hr identified by hr;
+
+User altered.
+
+SQL>connect
+Enter user-name: hr
+Enter password:
+Connected.
+SQL>show user;
+USER is "HR"
+SQL> select * from all_tables; //전체 테이블 조회
+SQL> select * from employees;
