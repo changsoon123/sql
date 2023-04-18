@@ -169,3 +169,86 @@ SELECT
 FROM countries c
 ORDER BY country_name ASC;
 
+문제 12. 
+employees테이블, departments테이블을 left조인 hire_date를 오름차순 기준으로 1-10번째 데이터만 출력합니다
+조건) rownum을 적용하여 번호, 직원아이디, 이름, 전화번호, 입사일, 부서아이디, 부서이름 을 출력합니다.
+조건) hire_date를 기준으로 오름차순 정렬 되어야 합니다. rownum이 틀어지면 안됩니다.
+
+SELECT *
+FROM(
+    SELECT ROWNUM AS al , tp.*
+    FROM(
+        SELECT
+            e.employee_id, e.first_name, e.phone_number , e.hire_date, d.department_id, d.department_name
+        FROM employees e LEFT JOIN departments d
+        ON e.department_id = d.department_id
+        ORDER BY e.hire_date ASC
+    ) tp
+)
+WHERE al > 0 AND al <11 ;
+
+문제 13. 
+--EMPLOYEES 과 DEPARTMENTS 테이블에서 JOB_ID가 SA_MAN 사원의 정보의 LAST_NAME, JOB_ID, 
+DEPARTMENT_ID,DEPARTMENT_NAME을 출력하세요.
+
+SELECT e.LAST_NAME, e.JOB_ID, 
+e.DEPARTMENT_ID,d.DEPARTMENT_NAME
+FROM employees e JOIN departments d
+ON e.department_id = d.department_id
+WHERE job_id = 'SA_MAN';
+
+문제 14
+--DEPARTMENT테이블에서 각 부서의 ID, NAME, MANAGER_ID와 부서에 속한 인원수를 출력하세요.
+--인원수 기준 내림차순 정렬하세요.
+--사람이 없는 부서는 출력하지 뽑지 않습니다.
+
+    SELECT COUNT(e.employee_id), tp.department_id, tp.department_name, tp.manager_id
+    FROM (
+  SELECT d.department_id, d.department_name, d.manager_id
+  FROM departments d
+        ) tp
+JOIN employees e ON tp.department_id = e.department_id
+GROUP BY tp.department_id, tp.department_name, tp.manager_id
+ORDER BY COUNT(e.employee_id) DESC;
+    
+
+
+--SELECT COUNT(*), d.department_id, d.department_name, d.manager_id
+--FROM employees e LEFT JOIN departments d
+--ON e.department_id = d.department_id
+--WHERE e.department_id IS NOT NULL
+--GROUP BY d.department_id;
+
+
+--WHERE e.department_id IN (
+--    SELECT d.department_id, d.department_name, d.manager_id
+--    FROM departments d
+--)
+--ORDER BY si DESC;
+
+문제 15
+--부서에 대한 정보 전부와, 주소, 우편번호, 부서별 평균 연봉을 구해서 출력하세요.
+--부서별 평균이 없으면 0으로 출력하세요.
+
+SELECT e.department_id , AVG(salary)
+FROM employees e LEFT JOIN departments d
+ON e.department_id = d.department_id LEFT JOIN locations loc
+ON d.location_id = loc.location_id
+GROUP BY e.department_id; 
+
+문제 16
+-문제 15 결과에 대해 DEPARTMENT_ID기준으로 내림차순 정렬해서 ROWNUM을 붙여 1-10데이터 까지만
+출력하세요.
+SELECT *
+    FROM(
+    SELECT ROWNUM AS ro, toto.*
+    FROM(
+    SELECT e.department_id , AVG(salary)
+    FROM employees e LEFT JOIN departments d
+    ON e.department_id = d.department_id LEFT JOIN locations loc
+    ON d.location_id = loc.location_id
+    GROUP BY e.department_id
+    ORDER BY e.department_id DESC
+    ) toto
+    )
+WHERE ro > 0 AND ro <11;
