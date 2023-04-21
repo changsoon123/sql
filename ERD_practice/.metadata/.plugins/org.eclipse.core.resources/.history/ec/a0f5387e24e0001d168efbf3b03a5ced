@@ -1,0 +1,10 @@
+package jdbc;
+
+public class JDBCInsert {
+
+	public static void main(String[] args) {
+		//C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib
+		
+	}
+
+}
