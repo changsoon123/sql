@@ -36,4 +36,4 @@ USER is "HR"
 SQL> select * from all_tables; //전체 테이블 조회
 SQL> select * from employees;
 
-test.
+test..
